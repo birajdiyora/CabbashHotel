@@ -1,0 +1,159 @@
+@model Cabbash.Models.BookingViewModel
+@{
+    ViewData["Title"] = "Booking Confirmation";
+}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card shadow-sm p-4 mb-4 text-center">
+                <i class="bi bi-check-circle-fill success-icon mb-3" style="font-size: 4rem; color: #28a745;"></i>
+                <h4 class="fw-bold">Your booking is confirmed!</h4>
+                <p class="sub-text mb-2">
+                    Your reservation details are below. A confirmation email has been sent.
+                </p>
+                <div class="fw-semibold">
+                    Booking ID: <span class="text-primary">@Model.BookingId</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="hotel-card">
+                    <div class="hotel-img-wrap">
+                        <a href="#" class="hotel-img">
+                            <img src="~/img/innerpages/hotel-img3.jpg" alt="">
+                        </a>
+                    </div>
+                    <div class="hotel-content">
+                        <div class="rating-area">
+                            <ul class="star">
+                                @for (int i = 0; i < 5; i++)
+                                {
+                                    <li><i class="bi bi-star-fill"></i></li>
+                                }
+                            </ul>
+                            <span>@Model.Rating Review</span>
+                        </div>
+                        <h5><a href="#">@Model.HotelName</a></h5>
+                        <div class="location-area">
+                            <div class="location">
+                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6.83615 0C3.77766 0 1.28891 2.48879 1.28891 5.54892C1.28891 7.93837 4.6241 11.8351 6.05811 13.3994C6.25669 13.6175 6.54154 13.7411 6.83615 13.7411C7.13076 13.7411 7.41561 13.6175 7.6142 13.3994C9.04821 11.8351 12.3834 7.93833 12.3834 5.54892C12.3834 2.48879 9.89464 0 6.83615 0ZM7.31469 13.1243C7.18936 13.2594 7.02008 13.3342 6.83615 13.3342C6.65222 13.3342 6.48295 13.2594 6.35761 13.1243C4.95614 11.5959 1.69584 7.79515 1.69584 5.54896C1.69584 2.7134 4.00067 0.406933 6.83615 0.406933C9.67164 0.406933 11.9765 2.7134 11.9765 5.54896C11.9765 7.79515 8.71617 11.5959 7.31469 13.1243Z"></path>
+                                    <path d="M6.83618 8.54554C8.4624 8.54554 9.7807 7.22723 9.7807 5.60102C9.7807 3.9748 8.4624 2.65649 6.83618 2.65649C5.20997 2.65649 3.89166 3.9748 3.89166 5.60102C3.89166 7.22723 5.20997 8.54554 6.83618 8.54554Z"></path>
+                                </svg>
+                                <a href="#">@Model.Location</a>
+                            </div>
+                        </div>
+                        <ul class="hotel-feature-list">
+                            <li>
+                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                    <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                </svg>
+                                Free Wi-Fi
+                            </li>
+                            <li>
+                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                    <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                </svg>
+                                Air Conditioning
+                            </li>
+                            <li>
+                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                    <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                </svg>
+                                Swimming Pool
+                            </li>
+                            <li>
+                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                    <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                </svg>
+                                Bars &amp; Lounges
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card shadow-sm p-3 mb-4">
+                <h6 class="fw-bold mb-3">Booking details</h6>
+
+                <div class="row mb-3">
+                    <div class="col-6 border-end p-2">
+                        <small class="text-muted">Check-in</small>
+                        <div class="fw-semibold booking-date">@Model.CheckInDate.ToString("ddd dd MMM yyyy")</div>
+                        <div class="sub-text">From 13:00</div>
+                    </div>
+
+                    <div class="col-6 p-2">
+                        <small class="text-muted">Check-out</small>
+                        <div class="fw-semibold booking-date">@Model.CheckOutDate.ToString("ddd dd MMM yyyy")</div>
+                        <div class="sub-text">Until 11:00</div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="mb-2">
+                    <small class="text-muted">Guest name</small>
+                    <div class="fw-semibold">@Model.GuestName</div>
+                </div>
+
+                <div class="mb-2">
+                    <small class="text-muted">Room details</small>
+                    <div>@Model.NumberOfRooms × @Model.RoomType</div>
+                    <div class="sub-text">@Model.NumberOfNights night · @Model.NumberOfAdults adults</div>
+                </div>
+            </div>
+
+            <div class="card shadow-sm p-3 mb-4">
+                <h6 class="fw-bold mb-3">Payment summary</h6>
+
+                <div class="d-flex justify-content-between mb-2">
+                    <span>Total amount paid</span>
+                    <span class="fw-bold">? @(Model.TotalPrice + 124.95m)</span>
+                </div>
+
+                <div class="sub-text mb-3">
+                    Includes ? 124.95 in taxes and charges
+                </div>
+
+                <div class="highlight-box p-3">
+                    <div class="d-flex justify-content-between">
+                        <span>Payment method</span>
+                        <span>@(string.IsNullOrEmpty(Model.PaymentMethod) ? "UPI / Card" : Model.PaymentMethod)</span>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <span>Payment status</span>
+                        <span class="text-success fw-semibold">@Model.PaymentStatus</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <div class="d-flex align-items-center justify-content-around flex-wrap">
+                    <div class="mt-3">
+                        <button type="button" class="primary-btn1" onclick="window.print()">
+                            <span>Download invoice</span>
+                            <span>Download invoice</span>
+                        </button>
+                    </div>
+
+                    <div class="mt-3">
+                        <a asp-controller="Home" asp-action="Index" class="primary-btn1">
+                            <span>Go to my bookings</span>
+                            <span>Go to my bookings</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

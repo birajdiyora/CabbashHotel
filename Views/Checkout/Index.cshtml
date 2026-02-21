@@ -1,0 +1,299 @@
+@model Cabbash.Models.BookingViewModel
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<div class="checkout-page pt-50 mb-100">
+    <div class="container">
+        <div class="row g-lg-4 gy-5">
+            <div class="col-lg-8">
+                <div class="checkout-form-wrapper">
+                    <div class="checkout-form-title">
+                        <h5>Billing Information</h5>
+                    </div>
+                    <div class="checkout-form">
+                        <form asp-action="ProcessBooking" method="post">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Full Name*</label>
+                                        <input type="text" asp-for="GuestName" placeholder="Enter your name" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Phone Number*</label>
+                                        <input type="text" asp-for="PhoneNumber" placeholder="(212)+ 455 645 678" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Email Address <span>(Optional)</span></label>
+                                        <input type="email" asp-for="Email" placeholder="info@gmail.com">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Your Location</label>
+                                        <input type="text" asp-for="GuestLocation" placeholder="Type Location">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Street Address*</label>
+                                        <input type="text" asp-for="StreetAddress" placeholder="Street address">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-inner two mb-25">
+                                        <label>Postal Code*</label>
+                                        <input type="text" asp-for="PostalCode" placeholder="Postal code">
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inner two mb-25">
+                                        <label>Short Notes*</label>
+                                        <textarea asp-for="SpecialRequests" placeholder="Write Something..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-inner2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" asp-for="SaveInformation" id="contactCheck11">
+                                            <label class="form-check-label" for="contactCheck11">
+                                                Save my information for next time when I booking
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" asp-for="HotelName" />
+                            <input type="hidden" asp-for="Location" />
+                            <input type="hidden" asp-for="Rating" />
+                            <input type="hidden" asp-for="CheckInDate" />
+                            <input type="hidden" asp-for="CheckOutDate" />
+                            <input type="hidden" asp-for="NumberOfNights" />
+                            <input type="hidden" asp-for="NumberOfRooms" />
+                            <input type="hidden" asp-for="NumberOfAdults" />
+                            <input type="hidden" asp-for="RoomType" />
+                            <input type="hidden" asp-for="OriginalPrice" />
+                            <input type="hidden" asp-for="Discount" />
+                            <input type="hidden" asp-for="TotalPrice" />
+                            <input type="hidden" asp-for="PromoCode" />
+                            <input type="hidden" asp-for="PaymentMethod" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="checkout-form-wrapper">
+                    <div class="checkout-form-title">
+                        <h5>Your booking details</h5>
+                    </div>
+                    <div class="order-sum-area">
+                        <div class="">
+                            <div class="hotel-card">
+                                <div class="hotel-img-wrap">
+                                    <a href="#" class="hotel-img">
+                                        <img src="~/img/innerpages/hotel-img3.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="hotel-content">
+                                    <div class="rating-area">
+                                        <ul class="star">
+                                            @for (int i = 0; i < 5; i++)
+                                            {
+                                                <li><i class="bi bi-star-fill"></i></li>
+                                            }
+                                        </ul>
+                                        <span>@Model.Rating Review</span>
+                                    </div>
+                                    <h5><a href="#">@Model.HotelName</a></h5>
+                                    <div class="location-area">
+                                        <div class="location">
+                                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6.83615 0C3.77766 0 1.28891 2.48879 1.28891 5.54892C1.28891 7.93837 4.6241 11.8351 6.05811 13.3994C6.25669 13.6175 6.54154 13.7411 6.83615 13.7411C7.13076 13.7411 7.41561 13.6175 7.6142 13.3994C9.04821 11.8351 12.3834 7.93833 12.3834 5.54892C12.3834 2.48879 9.89464 0 6.83615 0ZM7.31469 13.1243C7.18936 13.2594 7.02008 13.3342 6.83615 13.3342C6.65222 13.3342 6.48295 13.2594 6.35761 13.1243C4.95614 11.5959 1.69584 7.79515 1.69584 5.54896C1.69584 2.7134 4.00067 0.406933 6.83615 0.406933C9.67164 0.406933 11.9765 2.7134 11.9765 5.54896C11.9765 7.79515 8.71617 11.5959 7.31469 13.1243Z"></path>
+                                                <path d="M6.83618 8.54554C8.4624 8.54554 9.7807 7.22723 9.7807 5.60102C9.7807 3.9748 8.4624 2.65649 6.83618 2.65649C5.20997 2.65649 3.89166 3.9748 3.89166 5.60102C3.89166 7.22723 5.20997 8.54554 6.83618 8.54554Z"></path>
+                                            </svg>
+                                            <a href="#">@Model.Location</a>
+                                        </div>
+                                    </div>
+                                    <ul class="hotel-feature-list">
+                                        <li>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                                <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                            </svg>
+                                            Free Wi-Fi
+                                        </li>
+                                        <li>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                                <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                            </svg>
+                                            Air Conditioning
+                                        </li>
+                                        <li>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                                <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                            </svg>
+                                            Swimming Pool
+                                        </li>
+                                        <li>
+                                            <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="13" height="13" rx="6.5"></rect>
+                                                <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                            </svg>
+                                            Bars &amp; Lounges
+                                        </li>
+                                    </ul>
+                                    <div class="cancellation">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                                            <rect width="14" height="14" rx="7"></rect>
+                                            <path d="M10.6947 5.45777L6.24644 9.90841C6.17556 9.97689 6.08572 10.0124 5.99596 10.0124C5.9494 10.0125 5.90328 10.0033 5.86027 9.98548C5.81727 9.96763 5.77822 9.94144 5.7454 9.90841L3.3038 7.46681C3.16436 7.32969 3.16436 7.10521 3.3038 6.96577L4.16652 6.10065C4.29892 5.96833 4.53524 5.96833 4.66764 6.10065L5.99596 7.42897L9.33092 4.09161C9.36377 4.05868 9.40278 4.03255 9.44573 4.01471C9.48868 3.99686 9.53473 3.98766 9.58124 3.98761C9.67572 3.98761 9.76556 4.02545 9.83172 4.09161L10.6944 4.95681C10.8341 5.09625 10.8341 5.32073 10.6947 5.45777Z"></path>
+                                        </svg>
+                                        <span>Free Cancellation Policy</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card booking-card shadow-sm p-3 mt-3 mb-3">
+                                <div class="row text-start mb-3">
+                                    <div class="col-6 border-end p-2">
+                                        <small class="text-muted">Check-in</small>
+                                        <div class="fw-semibold booking-date">@Model.CheckInDate.ToString("ddd dd MMM yyyy")</div>
+                                        <div class="booking-time">12:00 � 12:30</div>
+                                    </div>
+                                    <div class="col-6 p-2">
+                                        <small class="text-muted">Check-out</small>
+                                        <div class="fw-semibold booking-date">@Model.CheckOutDate.ToString("ddd dd MMM yyyy")</div>
+                                        <div class="booking-time">10:30 � 11:30</div>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center gap-2 alert-text">
+                                    <i class="bi bi-exclamation-circle-fill"></i>
+                                    <span>Just @Model.NumberOfNights day away!</span>
+                                </div>
+                                <div class="mt-3 border-top">
+                                    <small class="text-muted">You selected</small>
+                                    <div class="fw-bold mt-1">@Model.NumberOfNights night, @Model.NumberOfRooms rooms for @Model.NumberOfAdults adults</div>
+                                    <div class="mt-1">@Model.NumberOfRooms x @Model.RoomType</div>
+                                </div>
+                            </div>
+
+                            <div class="card promo-card shadow-sm p-3 mb-3">
+                                <h6 class="fw-bold mb-3">Do you have a promo code?</h6>
+                                <div class="form-inner two mb-25">
+                                    <input type="text" id="promoCode" placeholder="Enter your promo code">
+                                </div>
+                                <button type="button" class="primary-btn1" onclick="applyPromo()">
+                                    <span>Apply</span>
+                                    <span>Apply</span>
+                                </button>
+                            </div>
+
+                            <div class="card price-card shadow-sm p-3 mb-3">
+                                <h5 class="fw-bold mb-4">Your price summary</h5>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Original price</span>
+                                    <span>@Model.OriginalPrice</span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Limited-time Deal</span>
+                                    <span class="text-success">- @Model.Discount</span>
+                                </div>
+                                <p class="muted-text mb-4">
+                                    You're getting a discount because, for a limited time, this property is offering reduced rates on some rooms that match your search.
+                                </p>
+                                <div class="highlight-box p-3">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h5 class="fw-bold mb-0">Total Price</h5>
+                                        </div>
+                                        <div class="text-end">
+                                            <div class="final-price">@Model.TotalPrice</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="cart-footer">
+                                <div class="choose-payment-method">
+                                    <h6>Select Payment Method</h6>
+                                    <div class="payment-option">
+                                        <ul>
+                                            <li class="paypal active">
+                                                <img src="~/img/innerpages/icon/payPal.svg" alt="">
+                                                <div class="checked">
+                                                    <i class="bi bi-check"></i>
+                                                </div>
+                                            </li>
+                                            <li class="stripe">
+                                                <img src="~/img/innerpages/icon/stripe.svg" alt="">
+                                                <div class="checked">
+                                                    <i class="bi bi-check"></i>
+                                                </div>
+                                            </li>
+                                            <li class="offline">
+                                                <img src="~/img/innerpages/icon/offline.svg" alt="">
+                                                <div class="checked">
+                                                    <i class="bi bi-check"></i>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="pt-25" id="StripePayment" style="display: none;">
+                                        <div class="row g-4">
+                                            <div class="col-md-12">
+                                                <div class="form-inner two">
+                                                    <label>Card Number</label>
+                                                    <input type="text" placeholder="1234 1234 1234 1234">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-inner two">
+                                                    <label>Expiry</label>
+                                                    <input type="text" placeholder="MM/YY">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-inner two">
+                                                    <label>CVC</label>
+                                                    <input type="text" placeholder="CVC">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               <a asp-controller="Checkout" asp-action="Confirmation" class="primary-btn1">
+                                    <span>
+                                        Confirmed Your Booking
+                                        <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"></path>
+                                        </svg>
+                                    </span>
+                                    <span>
+                                        Confirmed Your Booking
+                                        <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+@section Scripts {
+    <script>
+        function applyPromo() {
+            var promoCode = document.getElementById('promoCode').value;
+            alert('Promo code functionality will be implemented: ' + promoCode);
+        }
+    </script>
+}

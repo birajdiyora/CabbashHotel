@@ -1,0 +1,172 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css");
+
+:root {
+    --font-poppins: "Poppins", sans-serif;
+    --font-roboto: "Roboto", sans-serif;
+    --font-courgette: "Courgette", sans-serif;
+    --white-color: #fff;
+    --white-color-opc: 255, 255, 255;
+    --black-color: #110F0F;
+    --black-color-opc: 17, 15, 15;
+    --title-color: #110F0F;
+    --title-color-opc: 17, 15, 15;
+    --title-color2: #F6F3BC;
+    --title-color2-opc: 246, 243, 188;
+    --text-color: #525252;
+    --white-text-color: #AAAAAA;
+    --primarycolor: #003b95;
+    --primary-color1-opc: 23, 129, 254;
+    --primary-color2: #0EA9D0;
+    --primary-color2-opc: 14, 169, 208;
+    --primary-color3: #285340;
+    --primary-color3-opc: 40, 83, 64;
+    --primary-color4: #1B2072;
+    --primary-color4-opc: 27, 32, 114;
+    --borders-color: #E8E8E8;
+}
+
+.text-prime {
+    color: var(--primarycolor);
+}
+
+.topbar {
+    background-color: var(--primarycolor);
+}
+
+.navbar-brand h3 {
+    color: #fff;
+}
+
+.top-right {
+    gap: 20px;
+}
+
+.custome-btn {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 1px;
+}
+
+.home1-banner-section .banner-img {
+    min-height: 470px;
+    height: 470px;
+    position: relative;
+}
+
+.home1-banner-section .banner-img img {
+    height: 100%;
+    width: 100%;
+}
+
+.booking-card {
+    border-radius: 12px;
+}
+
+.booking-time {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.booking-date {
+    font-size: 15px;
+}
+
+.alert-text {
+    color: #d35400;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.price-card {
+    border-radius: 12px;
+}
+
+.muted-text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.highlight-box {
+    background-color: #eef4fb;
+    border-radius: 10px;
+}
+
+.strike {
+    text-decoration: line-through;
+    color: red;
+    font-size: 14px;
+}
+
+.final-price {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.success-icon {
+    color: #28a745;
+    font-size: 48px;
+}
+
+.sub-text {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.highlight-box {
+    background-color: #eef4fb;
+    border-radius: 10px;
+}
+
+/* Custom Navbar Toggler */
+.custom-toggler {
+    border: none;
+    background: transparent;
+    padding: 0;
+    width: 32px;
+    height: 24px;
+    position: relative;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Bars */
+.custom-toggler span {
+    display: block;
+    position: absolute;
+    height: 3px;
+    width: 100%;
+    background-color: #ffffff;
+    /* white bars */
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease, top 0.25s ease;
+}
+
+/* Top */
+.custom-toggler span:nth-child(1) {
+    top: 0;
+}
+
+/* Middle */
+.custom-toggler span:nth-child(2) {
+    top: 10px;
+}
+
+/* Bottom */
+.custom-toggler span:nth-child(3) {
+    top: 20px;
+}
+
+/* OPEN STATE (Bootstrap removes .collapsed) */
+.custom-toggler:not(.collapsed) span:nth-child(1) {
+    top: 10px;
+    transform: rotate(45deg);
+}
+
+.custom-toggler:not(.collapsed) span:nth-child(2) {
+    opacity: 0;
+}
+
+.custom-toggler:not(.collapsed) span:nth-child(3) {
+    top: 10px;
+    transform: rotate(-45deg);
+}
