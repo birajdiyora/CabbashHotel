@@ -130,6 +130,30 @@ namespace Cabbash.Controllers
             };
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetHotelsByLocation(string id)
+        {
+            try
+            {
+                var apiUrl = $"https://cabbashhotelapi.azurewebsites.net/GetAllHotelsInALocationById/?id={id}";
+                var response = await _httpClient.GetAsync(apiUrl);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    return Content(jsonContent, "application/json");
+                }
+                else
+                {
+                    return StatusCode((int)response.StatusCode, new { error = "Failed to fetch hotels" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { error = "An error occurred while fetching hotels" });
+            }
+        }
+
         public IActionResult Privacy()
         {
             return View();

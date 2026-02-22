@@ -5,9 +5,12 @@ namespace Cabbash.Models;
 public class BookingViewModel
 {
     // Hotel Information
+    public string HotelId { get; set; } = string.Empty;
     public string HotelName { get; set; } = string.Empty;
     public string Location { get; set; } = string.Empty;
     public double Rating { get; set; }
+    public string HotelImage { get; set; } = string.Empty;
+    public List<string>? HotelFeatures { get; set; }
 
     // Booking Details
     public DateTime CheckInDate { get; set; }
@@ -15,7 +18,13 @@ public class BookingViewModel
     public int NumberOfNights { get; set; }
     public int NumberOfRooms { get; set; }
     public int NumberOfAdults { get; set; }
+    public int NumberOfChildren { get; set; }
+    
+    // Room Information
+    public string RoomTypeId { get; set; } = string.Empty;
     public string RoomType { get; set; } = string.Empty;
+    public string RoomImage { get; set; } = string.Empty;
+    public string RoomDescription { get; set; } = string.Empty;
 
     // Guest Information
     [Required(ErrorMessage = "Full name is required")]

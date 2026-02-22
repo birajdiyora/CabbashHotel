@@ -493,7 +493,7 @@ else if (Model.HasFilters && !Model.Hotels.Any())
                                                 </ul>
                                             }
                                             <div class="btn-and-price-area">
-                                                <a asp-controller="Checkout" asp-action="Index" asp-route-hotelId="@hotel.Id" class="primary-btn1">
+                                                <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id" asp-route-checkInDate="@Model.CheckInDate" asp-route-checkOutDate="@Model.CheckOutDate" asp-route-adults="@Model.Adults" asp-route-children="@Model.Children" asp-route-rooms="@Model.Rooms" class="primary-btn1">
                                                     <span>Book Now</span>
                                                     <span>Book Now</span>
                                                 </a>

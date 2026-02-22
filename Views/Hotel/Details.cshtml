@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = (Model.Hotel?.BusinessName ?? "Hotel Details") + " - Cabbash.ai";
     var hotel = Model.Hotel;
-    var defaultImg = "/img/innerpages/hotel-dt-gallery-img1.jpg";
 }
 
 @* <div class="breadcrumb-section four">
@@ -380,15 +379,33 @@
                         <div class="gallery-img-wrap">
                             <div class="swiper hotel-dt-gallery-slider">
                                 <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <img src="/img/innerpages/hotel-dt-gallery-img1.jpg" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="/img/innerpages/hotel-dt-gallery-img6.jpg" alt="">
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <img src="/img/innerpages/hotel-dt-gallery-img7.jpg" alt="">
-                                    </div>
+                                    @if (hotel?.HotelImages != null && hotel.HotelImages.Any())
+                                    {
+                                        @foreach (var image in hotel.HotelImages.Take(5))
+                                        {
+                                            <div class="swiper-slide">
+                                                <img src="@image" alt="@hotel.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img1.jpg'">
+                                            </div>
+                                        }
+                                    }
+                                    else if (!string.IsNullOrEmpty(hotel?.ImageUrl))
+                                    {
+                                        <div class="swiper-slide">
+                                            <img src="@hotel.ImageUrl" alt="@hotel.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img1.jpg'">
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="swiper-slide">
+                                            <img src="/img/innerpages/hotel-dt-gallery-img1.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="/img/innerpages/hotel-dt-gallery-img6.jpg" alt="">
+                                        </div>
+                                        <div class="swiper-slide">
+                                            <img src="/img/innerpages/hotel-dt-gallery-img7.jpg" alt="">
+                                        </div>
+                                    }
                                 </div>
                                 <div class="slider-btn-grp">
                                     <div class="slider-btn hotel-dt-gallery-slider-prev">
@@ -411,33 +428,79 @@
                     </div>
                     <div class="col-lg-6">
                         <div class="row g-2">
-                            <div class="col-6">
-                                <div class="gallery-img-wrap">
-                                    <a data-fancybox="gallery-01"
-                                        href="/img/innerpages/hotel-dt-gallery-img2.jpg">
-                                        <img src="/img/innerpages/hotel-dt-gallery-img2.jpg" alt="">
-                                    </a>
+                            @{
+                                var additionalImages = new List<string>();
+                                
+                                // Add room type images
+                                if (Model.RoomTypes != null && Model.RoomTypes.Any())
+                                {
+                                    foreach (var roomType in Model.RoomTypes.Take(2))
+                                    {
+                                        if (!string.IsNullOrEmpty(roomType.PicturePath))
+                                        {
+                                            additionalImages.Add(roomType.PicturePath);
+                                        }
+                                    }
+                                }
+                                
+                                // Add hotel images if not enough
+                                if (hotel?.HotelImages != null && additionalImages.Count < 2)
+                                {
+                                    foreach (var img in hotel.HotelImages.Skip(1).Take(2 - additionalImages.Count))
+                                    {
+                                        if (!additionalImages.Contains(img))
+                                        {
+                                            additionalImages.Add(img);
+                                        }
+                                    }
+                                }
+                                
+                                // Fallback to defaults if still not enough
+                                if (additionalImages.Count == 0)
+                                {
+                                    additionalImages.Add("/img/innerpages/hotel-dt-gallery-img2.jpg");
+                                    additionalImages.Add("/img/innerpages/hotel-dt-gallery-img3.jpg");
+                                }
+                                else if (additionalImages.Count == 1)
+                                {
+                                    additionalImages.Add("/img/innerpages/hotel-dt-gallery-img3.jpg");
+                                }
+                            }
+                            
+                            @for (int i = 0; i < 2; i++)
+                            {
+                                <div class="col-6">
+                                    <div class="gallery-img-wrap">
+                                        <a data-fancybox="gallery-01" href="@additionalImages[i]">
+                                            <img src="@additionalImages[i]" alt="@hotel?.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img@(i+2).jpg'">
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="gallery-img-wrap">
-                                    <a data-fancybox="gallery-01"
-                                        href="/img/innerpages/hotel-dt-gallery-img3.jpg">
-                                        <img src="/img/innerpages/hotel-dt-gallery-img3.jpg" alt="">
-                                    </a>
-                                </div>
-                            </div>
+                            }
 
                             <div class="col-6">
                                 <div class="gallery-img-wrap two active">
-                                    <img src="/img/innerpages/hotel-dt-gallery-img4.jpg" alt="">
-                                    <a data-fancybox="gallery-01" href="https://www.youtube.com/watch?v=u31qwQUeGuM"><i
-                                            class="bi bi-play-circle"></i> Watch Video</a>
+                                    @if (!string.IsNullOrEmpty(hotel?.VideoPath))
+                                    {
+                                        var videoThumbImg = additionalImages.Count > 2 ? additionalImages[2] : "/img/innerpages/hotel-dt-gallery-img4.jpg";
+                                        <img src="@videoThumbImg" alt="@hotel?.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img4.jpg'">
+                                        <a data-fancybox="gallery-01" href="@hotel!.VideoPath"><i class="bi bi-play-circle"></i> Watch Video</a>
+                                    }
+                                    else
+                                    {
+                                        var videoThumbImage = additionalImages.Count > 2 ? additionalImages[2] : 
+                                                             (hotel?.HotelImages != null && hotel.HotelImages.Count > 2 ? hotel.HotelImages[2] : "/img/innerpages/hotel-dt-gallery-img4.jpg");
+                                        <img src="@videoThumbImage" alt="@hotel?.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img4.jpg'">
+                                        <a data-fancybox="gallery-01" href="@videoThumbImage"><i class="bi bi-images"></i> View Image</a>
+                                    }
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="gallery-img-wrap two active">
-                                    <img src="/img/innerpages/hotel-dt-gallery-img5.jpg" alt="">
+                                    @{
+                                        var moreImagesThumb = hotel?.HotelImages != null && hotel.HotelImages.Count > 3 ? hotel.HotelImages[3] : "/img/innerpages/hotel-dt-gallery-img5.jpg";
+                                    }
+                                    <img src="@moreImagesThumb" alt="@hotel?.BusinessName" onerror="this.src='/img/innerpages/hotel-dt-gallery-img5.jpg'">
                                     <button class="StartSlideShowFirstImage"><i class="bi bi-plus-lg"></i> View More
                                         Images</button>
                                 </div>
@@ -449,11 +512,31 @@
         </div>
     </div>
     <div class="others-image-wrap d-none">
-        <a href="/img/innerpages/hotel-dt-gallery-img1.jpg" data-fancybox="images"></a>
-        <a href="/img/innerpages/hotel-dt-gallery-img2.jpg" data-fancybox="images"></a>
-        <a href="/img/innerpages/hotel-dt-gallery-img3.jpg" data-fancybox="images"></a>
-        <a href="/img/innerpages/hotel-dt-gallery-img4.jpg" data-fancybox="images"></a>
-        <a href="/img/innerpages/hotel-dt-gallery-img5.jpg" data-fancybox="images"></a>
+        @if (hotel?.HotelImages != null && hotel.HotelImages.Any())
+        {
+            @foreach (var image in hotel.HotelImages)
+            {
+                <a href="@image" data-fancybox="images"></a>
+            }
+        }
+        @if (Model.RoomTypes != null)
+        {
+            @foreach (var roomType in Model.RoomTypes)
+            {
+                @if (!string.IsNullOrEmpty(roomType.PicturePath))
+                {
+                    <a href="@roomType.PicturePath" data-fancybox="images"></a>
+                }
+            }
+        }
+        @if (hotel?.HotelImages == null || !hotel.HotelImages.Any())
+        {
+            <a href="/img/innerpages/hotel-dt-gallery-img1.jpg" data-fancybox="images"></a>
+            <a href="/img/innerpages/hotel-dt-gallery-img2.jpg" data-fancybox="images"></a>
+            <a href="/img/innerpages/hotel-dt-gallery-img3.jpg" data-fancybox="images"></a>
+            <a href="/img/innerpages/hotel-dt-gallery-img4.jpg" data-fancybox="images"></a>
+            <a href="/img/innerpages/hotel-dt-gallery-img5.jpg" data-fancybox="images"></a>
+        }
     </div>
 
     <div class="hotel-details-page mb-100">
@@ -749,15 +832,16 @@
                                                             </div>
                                                         }
                                                         <div class="btn-area">
-                                                            <a asp-controller="Checkout" asp-action="Index"
-                                                               asp-route-hotelId="@Model.Hotel?.Id"
-                                                               asp-route-roomTypeId="@room.Id"
-                                                               asp-route-checkInDate="@Model.CheckInDate"
-                                                               asp-route-checkOutDate="@Model.CheckOutDate"
-                                                               asp-route-adults="@Model.Adults"
-                                                               asp-route-children="@Model.Children"
-                                                               asp-route-rooms="@Model.Rooms"
-                                                               class="primary-btn1 two">
+                                                            <button type="button"
+                                                               class="primary-btn1 two check-room-availability-btn"
+                                                               data-hotel-id="@Model.Hotel?.Id"
+                                                               data-room-id="@room.Id"
+                                                               data-room-name="@room.Name"
+                                                               data-checkin="@Model.CheckInDate"
+                                                               data-checkout="@Model.CheckOutDate"
+                                                               data-adults="@Model.Adults"
+                                                               data-children="@Model.Children"
+                                                               data-rooms="@Model.Rooms">
                                                                 <span>
                                                                     Book Now
                                                                     <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"></path></svg>
@@ -766,7 +850,7 @@
                                                                     Book Now
                                                                     <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"></path></svg>
                                                                 </span>
-                                                            </a>
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -779,12 +863,16 @@
                                         <p class="p-3">No room types available at the moment.</p>
                                     }
                                 </div>
-                            </div>                        <div class="hotel-dt-location-area mb-50">
-                            <h4>View Hotel Location</h4>
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3649.5647631857846!2d90.36311167605992!3d23.83407118555764!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c14c8682a473%3A0xa6c74743d52adb88!2sEgens%20Lab!5e0!3m2!1sen!2sbd!4v1700138349574!5m2!1sen!2sbd"
-                                allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>                        @if (hotel?.Latitude != null && hotel?.Longitude != null)
+                        {
+                            <div class="hotel-dt-location-area mb-50">
+                                <h4>View Hotel Location</h4>
+                                <p style="color: red; font-weight: bold;">Debug - Coordinates: Latitude = @hotel.Latitude, Longitude = @hotel.Longitude</p>
+                                <iframe
+                                    src="https://maps.google.com/maps?q=@hotel.Latitude,@hotel.Longitude&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                                    allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
+                        }
                         <div class="additional-info mb-50">
                             <h4>Additional Info</h4>
                             <ul class="items-list">
@@ -1089,7 +1177,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
+            </div>
+            <div class="col-lg-4">
                     <div class="hotel-details-sidebar">
                         <div class="pricing-and-booking-area">
                             <div class="batch">
@@ -1164,7 +1253,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 
@@ -1774,3 +1862,264 @@
             </div>
         </div>
     </div>
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Handle Check Availability button on sidebar
+            $('#scroll-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                // Find the currently expanded accordion (selected room)
+                var $expandedAccordion = $('.accordion-collapse.show');
+                
+                if ($expandedAccordion.length > 0) {
+                    // A room is selected, find and click the Book Now button in that accordion
+                    var $bookNowBtn = $expandedAccordion.find('.check-room-availability-btn');
+                    
+                    if ($bookNowBtn.length > 0) {
+                        // Trigger the Book Now button click
+                        $bookNowBtn.click();
+                    } else {
+              showToast('Please select a room to check availability.', 'error');
+                    }
+                } else {
+                    // No room is selected
+                    showToast('Please select a room first.', 'error');
+                }
+            });
+            
+            // Handle Book Now button clicks for room availability check
+            $('.check-room-availability-btn').on('click', function(e) {
+                e.preventDefault();
+                
+                var $btn = $(this);
+                var hotelId = $btn.data('hotel-id');
+                var roomId = $btn.data('room-id');
+                var roomName = $btn.data('room-name');
+                var adults = $btn.data('adults') || 1;
+                var children = $btn.data('children') || 0;
+                var rooms = $btn.data('rooms') || 1;
+                
+                // Get dates from data attributes or calendar inputs
+                var checkInDate = getCheckInDate($btn);
+                var checkOutDate = getCheckOutDate($btn);
+                
+                // Validate dates
+                if (!checkInDate || !checkOutDate) {
+                    showToast('Please select check-in and check-out dates.', 'error');
+                    return;
+                }
+                
+                var originalHtml = $btn.html();
+                $btn.prop('disabled', true).html('<span>Checking Availability...</span>');
+                
+                // Call our own server endpoint to avoid CORS issues
+                var proxyUrl = '/Hotel/CheckRoomAvailability';
+                var params = new URLSearchParams({
+                    id: hotelId,
+                    roomId: roomId,
+                    startDate: checkInDate,
+                    endDate: checkOutDate
+                });
+                
+                var fullUrl = proxyUrl + '?' + params.toString();
+                
+                // Use fetch API to call our server endpoint
+                fetch(fullUrl)
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('API returned status: ' + response.status);
+                        }
+                        
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        $btn.prop('disabled', false).html(originalHtml);
+                        
+                        if (data && data.length > 0) {
+                            var availability = data[0];
+                            
+                            if (availability.availableRooms > 0) {
+                                // Room is available, redirect to checkout
+                                var checkoutUrl = '/Checkout/Index?' +
+                                    'hotelId=' + encodeURIComponent(hotelId) +
+                                    '&roomTypeId=' + encodeURIComponent(roomId) +
+                                    '&checkInDate=' + encodeURIComponent(checkInDate) +
+                                    '&checkOutDate=' + encodeURIComponent(checkOutDate) +
+                                    '&adults=' + encodeURIComponent(adults) +
+                                    '&children=' + encodeURIComponent(children) +
+                                    '&rooms=' + encodeURIComponent(rooms);
+                                
+                                window.location.href = checkoutUrl;
+                            } else {
+                                // Room is not available
+                                showToast('Sorry, the ' + roomName + ' room is not available for the selected dates. Please choose different dates or another room type.', 'error');
+                            }
+                        } else {
+                            showToast('Unable to check availability. Please try again.', 'error');
+                        }
+                    })
+                    .catch(function(error) {
+                        $btn.prop('disabled', false).html(originalHtml);
+                        showToast('Unable to check room availability. Please try again later.', 'error');
+                    });
+            });
+            
+            function getCheckInDate($btn) {
+                // First try to get from data attribute
+                var dataCheckIn = $btn.data('checkin');
+                if (dataCheckIn && dataCheckIn.trim() !== '') {
+                    return formatDateToAPI(dataCheckIn);
+                }
+                
+                // Try to get from calendar input
+                var checkInInput = $('#hotel-details-checkin').val();
+                if (checkInInput && checkInInput.trim() !== '') {
+                    return formatDateToAPI(checkInInput);
+                }
+                
+                // Return default date from calendar or current date
+                return getDefaultCheckInDate();
+            }
+            
+            function getCheckOutDate($btn) {
+                // First try to get from data attribute
+                var dataCheckOut = $btn.data('checkout');
+                if (dataCheckOut && dataCheckOut.trim() !== '') {
+                    return formatDateToAPI(dataCheckOut);
+                }
+                
+                // Try to get from calendar input
+                var checkOutInput = $('#hotel-details-checkout').val();
+                if (checkOutInput && checkOutInput.trim() !== '') {
+                    return formatDateToAPI(checkOutInput);
+                }
+                
+                // Return default date from calendar or current date + 3 days
+                return getDefaultCheckOutDate();
+            }
+            
+            function getDefaultCheckInDate() {
+                // Try to get from calendar default value
+                var calendarInput = $('#hotel-details-checkin').val();
+                if (calendarInput && calendarInput.includes('-')) {
+                    var dates = calendarInput.split('-');
+                    return formatDateToAPI(dates[0].trim());
+                }
+                
+                // Use current date
+                var today = new Date();
+                return formatDateObject(today);
+            }
+            
+            function getDefaultCheckOutDate() {
+                // Try to get from calendar default value
+                var calendarInput = $('#hotel-details-checkout').val();
+                if (calendarInput && calendarInput.includes('-')) {
+                    var dates = calendarInput.split('-');
+                    var dateStr = dates.length > 1 ? dates[1].trim() : dates[0].trim();
+                    return formatDateToAPI(dateStr);
+                }
+                
+                // Use current date + 3 days
+                var checkout = new Date();
+                checkout.setDate(checkout.getDate() + 3);
+                return formatDateObject(checkout);
+            }
+            
+            function formatDateObject(dateObj) {
+                var month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                var day = dateObj.getDate().toString().padStart(2, '0');
+                var year = dateObj.getFullYear();
+                return month + '/' + day + '/' + year;
+            }
+            
+            function formatDateToAPI(dateStr) {
+                if (!dateStr) return null;
+                
+                // If already in MM/DD/YYYY format
+                if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+                    return dateStr;
+                }
+                
+                // If in M/D/YYYY format, pad with zeros
+                if (/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(dateStr)) {
+                    var parts = dateStr.split('/');
+                    return parts[0].padStart(2, '0') + '/' + parts[1].padStart(2, '0') + '/' + parts[2];
+                }
+                
+                // Try parsing text date like "June 16"
+                var months = {
+                    'january': '01', 'february': '02', 'march': '03', 'april': '04',
+                    'may': '05', 'june': '06', 'july': '07', 'august': '08',
+                    'september': '09', 'october': '10', 'november': '11', 'december': '12',
+                    'jan': '01', 'feb': '02', 'mar': '03', 'apr': '04',
+                    'jun': '06', 'jul': '07', 'aug': '08', 'sep': '09',
+                    'oct': '10', 'nov': '11', 'dec': '12'
+                };
+                
+                var lowerStr = dateStr.toLowerCase().trim();
+                var parts = lowerStr.split(/[\s,]+/);
+                var month = '';
+                var day = '';
+                var year = new Date().getFullYear().toString();
+                
+                for (var i = 0; i < parts.length; i++) {
+                    if (months[parts[i]]) {
+                        month = months[parts[i]];
+                    } else if (!isNaN(parts[i]) && parts[i].length <= 2) {
+                        day = parts[i].padStart(2, '0');
+                    } else if (!isNaN(parts[i]) && parts[i].length === 4) {
+                        year = parts[i];
+                    }
+                }
+                
+                if (month && day) {
+                    return month + '/' + day + '/' + year;
+                }
+                
+                // Try parsing as ISO date or other format
+                try {
+                    var date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) {
+                        return formatDateObject(date);
+                    }
+                } catch (e) {
+                    // Date parsing failed
+                }
+                
+                return null;
+            }
+            
+            function showToast(message, type) {
+                // Create toast container if it doesn't exist
+                if ($('#toast-container').length === 0) {
+                    $('body').append('<div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 99999;"></div>');
+                }
+                
+                var bgColor = type === 'error' ? '#dc3545' : '#28a745';
+                var icon = type === 'error' ? '⚠️' : '✓';
+                
+                var toast = $('<div class="custom-toast" style="background-color: ' + bgColor + '; color: white; padding: 15px 20px; margin-bottom: 10px; border-radius: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); min-width: 300px; max-width: 500px; animation: slideIn 0.3s ease-out;">' +
+                    '<div style="display: flex; align-items: center; gap: 10px;">' +
+                    '<span style="font-size: 20px; font-weight: bold;">' + icon + '</span>' +
+                    '<span>' + message + '</span>' +
+                    '</div>' +
+                    '</div>');
+                
+                $('#toast-container').append(toast);
+                
+                setTimeout(function() {
+                    toast.fadeOut(300, function() {
+                        $(this).remove();
+                    });
+                }, 6000);
+            }
+        });
+        
+        // Add toast animation styles if not already added
+        if ($('head').find('style[data-toast-animation]').length === 0) {
+            $('head').append('<style data-toast-animation>@@keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }</style>');
+        }
+    </script>
+}

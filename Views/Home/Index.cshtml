@@ -428,7 +428,7 @@
                                     </div>
                                 }
                                 <div class="btn-and-price-area">
-                                    <a asp-controller="Checkout" asp-action="Index" asp-route-hotelId="@hotel.Id" class="primary-btn1">
+                                    <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id" class="primary-btn1">
                                         <span>
                                             Book Now
                                             <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
@@ -1461,4 +1461,41 @@ document.addEventListener('DOMContentLoaded', function() {
 
 @section Scripts {
     <script src="~/js/filter-handler.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Intercept search button click to call API
+            $('form.filter-input button[type="submit"]').on('click', function(e) {
+                e.preventDefault();
+                
+                var $form = $(this).closest('form');
+                var locationId = $('#selectedLocationId').val();
+                
+                // Validate location is selected
+                if (!locationId || locationId.trim() === '') {
+                    // No location selected, submit form normally
+                    $form.off('submit').submit();
+                    return;
+                }
+                
+                // Call API to get hotels by location
+                var apiUrl = '/Home/GetHotelsByLocation?id=' + encodeURIComponent(locationId);
+                
+                fetch(apiUrl)
+                    .then(function(response) {
+                        if (!response.ok) {
+                            throw new Error('API call failed');
+                        }
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        // API call successful, now submit the form
+                        $form.off('submit').submit();
+                    })
+                    .catch(function(error) {
+                        // Even if API fails, still submit the form to maintain functionality
+                        $form.off('submit').submit();
+                    });
+            });
+        });
+    </script>
 }

@@ -68,15 +68,20 @@
                                 </div>
                             </div>
 
+                            <input type="hidden" asp-for="HotelId" />
                             <input type="hidden" asp-for="HotelName" />
                             <input type="hidden" asp-for="Location" />
                             <input type="hidden" asp-for="Rating" />
+                            <input type="hidden" asp-for="HotelImage" />
+                            <input type="hidden" asp-for="RoomTypeId" />
+                            <input type="hidden" asp-for="RoomType" />
+                            <input type="hidden" asp-for="RoomImage" />
                             <input type="hidden" asp-for="CheckInDate" />
                             <input type="hidden" asp-for="CheckOutDate" />
                             <input type="hidden" asp-for="NumberOfNights" />
                             <input type="hidden" asp-for="NumberOfRooms" />
                             <input type="hidden" asp-for="NumberOfAdults" />
-                            <input type="hidden" asp-for="RoomType" />
+                            <input type="hidden" asp-for="NumberOfChildren" />
                             <input type="hidden" asp-for="OriginalPrice" />
                             <input type="hidden" asp-for="Discount" />
                             <input type="hidden" asp-for="TotalPrice" />
@@ -96,13 +101,13 @@
                             <div class="hotel-card">
                                 <div class="hotel-img-wrap">
                                     <a href="#" class="hotel-img">
-                                        <img src="~/img/innerpages/hotel-img3.jpg" alt="">
+                                        <img src="@Model.HotelImage" alt="@Model.HotelName" onerror="this.src='/img/innerpages/hotel-img3.jpg'">
                                     </a>
                                 </div>
                                 <div class="hotel-content">
                                     <div class="rating-area">
                                         <ul class="star">
-                                            @for (int i = 0; i < 5; i++)
+                                            @for (int i = 0; i < (int)Model.Rating; i++)
                                             {
                                                 <li><i class="bi bi-star-fill"></i></li>
                                             }
@@ -178,8 +183,14 @@
                                 </div>
                                 <div class="mt-3 border-top">
                                     <small class="text-muted">You selected</small>
-                                    <div class="fw-bold mt-1">@Model.NumberOfNights night, @Model.NumberOfRooms rooms for @Model.NumberOfAdults adults</div>
+                                    <div class="fw-bold mt-1">@Model.NumberOfNights night@(Model.NumberOfNights != 1 ? "s" : ""), @Model.NumberOfRooms room@(Model.NumberOfRooms != 1 ? "s" : "") for @Model.NumberOfAdults adult@(Model.NumberOfAdults != 1 ? "s" : "")@(Model.NumberOfChildren > 0 ? $" and {Model.NumberOfChildren} child" + (Model.NumberOfChildren != 1 ? "ren" : "") : "")</div>
                                     <div class="mt-1">@Model.NumberOfRooms x @Model.RoomType</div>
+                                    @if (!string.IsNullOrEmpty(Model.RoomDescription))
+                                    {
+                                        <div class="mt-2">
+                                            <small class="text-muted">@Model.RoomDescription</small>
+                                        </div>
+                                    }
                                 </div>
                             </div>
 

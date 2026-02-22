@@ -100,6 +100,9 @@ namespace Cabbash.Controllers
                 {
                     var json = await hotelTask.Result.Content.ReadAsStringAsync();
                     viewModel.Hotel = JsonSerializer.Deserialize<Hotel>(json, options);
+                    
+                    // Log the coordinates for debugging
+                    _logger.LogInformation($"Hotel Coordinates - Latitude: {viewModel.Hotel?.Latitude}, Longitude: {viewModel.Hotel?.Longitude}");
                 }
 
                 if (amenitiesTask.Result.IsSuccessStatusCode)
@@ -170,6 +173,33 @@ namespace Cabbash.Controllers
             }
             
             return new List<Hotel>();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CheckRoomAvailability(string id, string roomId, string startDate, string endDate)
+        {
+            try
+            {
+                var apiUrl = $"https://cabbashhotelapi.azurewebsites.net/GetHotelAvailabilityByRoomId/?id={id}&roomId={roomId}&startDate={startDate}&endDate={endDate}";
+                
+                var response = await _httpClient.GetAsync(apiUrl);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    return Content(jsonContent, "application/json");
+                }
+                else
+                {
+                    _logger.LogError($"API returned status code: {response.StatusCode}");
+                    return StatusCode((int)response.StatusCode, new { error = "Failed to check availability" });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error checking room availability");
+                return StatusCode(500, new { error = "An error occurred while checking availability" });
+            }
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
