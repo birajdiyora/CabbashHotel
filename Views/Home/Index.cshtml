@@ -286,8 +286,11 @@
             <ul class="service-list wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
                 <li class="single-service">
                     <div class="icon">
-                        <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-                            <path fill-rule="evenodd" clip-rule="evenodd" d="M15 0C21.4662 0 26.7081 5.24194 26.7081 11.7081C26.7081 18.1743 21.4662 23.4163 15 23.4163C8.53375 23.4163 3.29187 18.1743 3.29187 11.7081C3.29187 5.24194 8.53375 0 15 0Z" />
+                        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" opacity="0.2"/>
+                            <g transform="translate(15, 10)">
+                                <path d="M15 0C10.0294 0 6 4.02944 6 9C6 15.75 15 26 15 26C15 26 24 15.75 24 9C24 4.02944 19.9706 0 15 0ZM15 12C13.3431 12 12 10.6569 12 9C12 7.34315 13.3431 6 15 6C16.6569 6 18 7.34315 18 9C18 10.6569 16.6569 12 15 12Z" fill="currentColor"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="content">
@@ -297,8 +300,13 @@
                 </li>
                 <li class="single-service">
                     <div class="icon">
-                        <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.4896 4.14404C19.8384 3.81275 19.0419 4.07233 18.7107 4.72379L8.87091 24.0772C8.53971 24.7285 8.79929 25.5249 9.45066 25.8561C9.63601 25.9507 9.84112 26 10.0492 26C10.5313 26 10.996 25.7356 11.2296 25.2763L21.0694 5.92297C21.4006 5.27161 21.141 4.47523 20.4896 4.14404Z" />
+                        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" opacity="0.2"/>
+                            <g transform="translate(15, 12)">
+                                <path d="M15 0C11.134 0 8 3.134 8 7C8 8.64 8.606 10.136 9.608 11.3L2.294 23.48C2.102 23.81 2 24.188 2 24.572V34C2 35.104 2.896 36 4 36H8V32H12V36H16C17.104 36 18 35.104 18 34V24.572C18 24.188 17.898 23.81 17.706 23.48L10.392 11.3C11.394 10.136 12 8.64 12 7C12 3.134 8.866 0 5 0H15ZM15 4C16.104 4 17 4.896 17 6V8H13V4H15Z" fill="currentColor"/>
+                                <rect x="10" y="20" width="10" height="2" rx="1" fill="currentColor"/>
+                                <rect x="10" y="25" width="10" height="2" rx="1" fill="currentColor"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="content">
@@ -308,8 +316,14 @@
                 </li>
                 <li class="single-service">
                     <div class="icon">
-                        <svg width="30" height="30" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M27.6977 12.3954C27.6977 11.446 27.32 10.5343 26.6493 9.86234C25.9771 9.19137 25.0661 8.81436 24.1163 8.81396H5.88376C4.93437 8.81396 4.02274 9.19164 3.35074 9.86234C2.67978 10.5346 2.30277 11.4455 2.30237 12.3954V25.4186C2.30237 26.368 2.68004 27.2796 3.35074 27.9516C4.02303 28.6226 4.93394 28.9996 5.88376 29H24.1163C25.0657 29 25.9773 28.6223 26.6493 27.9516C27.3203 27.2794 27.6973 26.3684 27.6977 25.4186V12.3954Z" />
+                        <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="30" cy="30" r="28" stroke="currentColor" stroke-width="2" fill="none" opacity="0.2"/>
+                            <g transform="translate(13, 13)">
+                                <path d="M30 4H4C1.79086 4 0 5.79086 0 8V26C0 28.2091 1.79086 30 4 30H30C32.2091 30 34 28.2091 34 26V8C34 5.79086 32.2091 4 30 4Z" fill="currentColor"/>
+                                <circle cx="17" cy="17" r="5" fill="white"/>
+                                <circle cx="6" cy="9" r="2" fill="white"/>
+                                <circle cx="28" cy="25" r="2" fill="white"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="content">
@@ -375,7 +389,21 @@
                         <div class="hotel-card">
                             <div class="hotel-img-wrap">
                                 <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id" class="hotel-img">
-                                    <img src="@hotel.ImageUrl" alt="@hotel.BusinessName">
+                                    @if (!string.IsNullOrEmpty(hotel.ImageUrl))
+                                    {
+                                        <img src="@hotel.ImageUrl" alt="@hotel.BusinessName">
+                                    }
+                                    else
+                                    {
+                                        <div class="hotel-img-placeholder" title="This hotel image is not available">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="placeholder-icon">
+                                                <rect x="2" y="2" width="20" height="20" rx="2.5" ry="2.5"></rect>
+                                                <circle cx="8.5" cy="8.5" r="2"></circle>
+                                                <path d="M2 16l6-6 4 4 6-6 4 4v6H2z" fill="currentColor" opacity="0.3"></path>
+                                            </svg>
+                                            <span class="placeholder-text">This hotel image is not available</span>
+                                        </div>
+                                    }
                                 </a>
                             </div>
                             <div class="hotel-content">
@@ -1458,6 +1486,95 @@ document.addEventListener('DOMContentLoaded', function() {
     updateRoomsHiddenInput();
 });
 </script>
+
+<style>
+    /* Last Minute Deals - Consistent Card Heights */
+    .hotel-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+    
+    .hotel-card .hotel-img-wrap {
+        height: 250px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .hotel-card .hotel-img-wrap .hotel-img {
+        display: block;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .hotel-card .hotel-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    .hotel-card .hotel-img-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .hotel-card .hotel-img-placeholder:hover {
+        background: linear-gradient(135deg, #5568d3 0%, #6a3f91 100%);
+    }
+    
+    .hotel-card .hotel-img-placeholder svg.placeholder-icon {
+        width: 80px;
+        height: 80px;
+        opacity: 0.9;
+        margin-bottom: 12px;
+        transition: transform 0.3s ease;
+    }
+    
+    .hotel-card .hotel-img-placeholder:hover svg.placeholder-icon {
+        transform: scale(1.1);
+    }
+    
+    .hotel-card .hotel-img-placeholder span.placeholder-text {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.95;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
+    .hotel-card .hotel-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .hotel-card .hotel-content .btn-and-price-area {
+        margin-top: auto;
+    }
+    
+    /* Responsive adjustments */
+    @@media (max-width: 991px) {
+        .hotel-card .hotel-img-wrap {
+            height: 220px;
+        }
+    }
+    
+    @@media (max-width: 767px) {
+        .hotel-card .hotel-img-wrap {
+            height: 200px;
+        }
+    }
+</style>
 
 @section Scripts {
     <script src="~/js/filter-handler.js"></script>
