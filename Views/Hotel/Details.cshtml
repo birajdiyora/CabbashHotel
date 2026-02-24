@@ -871,9 +871,9 @@
                                 </div>
                             </div>                        @if (hotel?.Latitude != null && hotel?.Longitude != null)
                         {
-                            <div class="hotel-dt-location-area mb-50">
+                            <div class="hotel-dt-location-area mt-20 mb-50">
                                 <h4>View Hotel Location</h4>
-                                <p style="color: red; font-weight: bold;">Debug - Coordinates: Latitude = @hotel.Latitude, Longitude = @hotel.Longitude</p>
+
                                 <iframe
                                     src="https://maps.google.com/maps?q=@hotel.Latitude,@hotel.Longitude&t=&z=15&ie=UTF8&iwloc=&output=embed"
                                     allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
