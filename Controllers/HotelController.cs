@@ -115,6 +115,13 @@ namespace Cabbash.Controllers
                 {
                     var json = await roomTypesTask.Result.Content.ReadAsStringAsync();
                     var all = JsonSerializer.Deserialize<List<RoomType>>(json, options) ?? new();
+                    const decimal ngnToUsd = 1600m;
+                    foreach (var room in all)
+                    {
+                        room.Price          = Math.Round(room.Price          / ngnToUsd, 2);
+                        room.BusinessPrice  = Math.Round(room.BusinessPrice  / ngnToUsd, 2);
+                        room.MinimumDeposit = Math.Round(room.MinimumDeposit / ngnToUsd, 2);
+                    }
                     viewModel.RoomTypes = all.Where(r => r.IsActive).ToList();
                 }
             }

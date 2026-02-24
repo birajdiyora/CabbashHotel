@@ -447,17 +447,17 @@ else if (Model.HasFilters && !Model.Hotels.Any())
                 @* Dynamic API Hotel Results *@
                 @if (Model.Hotels != null && Model.Hotels.Any())
                 {
-                    <div class="api-hotels-section grid-view mt-4">
-                        <div class="row gy-4">
+                    <div class="list-grid-product-wrap column-2-wrapper">
+                        <div class="row gy-md-5 gy-4">
                             @foreach (Hotel hotel in Model.Hotels.Take(6))
                             {
-                                <div class="col-md-6">
+                                <div class="col-md-6 item wow animate fadeInDown animated">
                                     <div class="hotel-card">
                                         <div class="hotel-img-wrap">
                                             <a asp-controller="Hotel" asp-action="Details" asp-route-id="@hotel.Id" asp-route-checkInDate="@Model.CheckInDate" asp-route-checkOutDate="@Model.CheckOutDate" asp-route-adults="@Model.Adults" asp-route-children="@Model.Children" asp-route-rooms="@Model.Rooms" class="hotel-img">
                                                 @if (!string.IsNullOrEmpty(hotel.ImageUrl))
                                                 {
-                                                    <img src="@hotel.ImageUrl" alt="@hotel.BusinessName" style="height: 200px; object-fit: cover;">
+                                                    <img src="@hotel.ImageUrl" alt="@hotel.BusinessName" style="object-fit: cover; width:100%">
                                                 }
                                                 else
                                                 {

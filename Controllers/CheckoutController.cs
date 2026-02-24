@@ -54,8 +54,12 @@ public class CheckoutController : Controller
                         model.HotelImage = hotel.HotelImages?.FirstOrDefault() ?? hotel.ImageUrl ?? "/img/innerpages/hotel-img3.jpg";
                         
                         // Populate room data
+                        const decimal ngnToUsd = 1600m;
                         if (selectedRoomType != null)
                         {
+                            selectedRoomType.Price         = Math.Round(selectedRoomType.Price         / ngnToUsd, 2);
+                            selectedRoomType.BusinessPrice = Math.Round(selectedRoomType.BusinessPrice / ngnToUsd, 2);
+
                             model.RoomTypeId = roomTypeId;
                             model.RoomType = selectedRoomType.Name ?? "Standard Room";
                             model.RoomImage = selectedRoomType.PicturePath ?? model.HotelImage;

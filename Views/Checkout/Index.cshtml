@@ -209,11 +209,11 @@
                                 <h5 class="fw-bold mb-4">Your price summary</h5>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Original price</span>
-                                    <span>@Model.OriginalPrice</span>
+                                    <span>$@Model.OriginalPrice.ToString("N2")</span>
                                 </div>
                                 <div class="d-flex justify-content-between mb-2">
                                     <span>Limited-time Deal</span>
-                                    <span class="text-success">- @Model.Discount</span>
+                                    <span class="text-success">- $@Model.Discount.ToString("N2")</span>
                                 </div>
                                 <p class="muted-text mb-4">
                                     You're getting a discount because, for a limited time, this property is offering reduced rates on some rooms that match your search.
@@ -224,7 +224,7 @@
                                             <h5 class="fw-bold mb-0">Total Price</h5>
                                         </div>
                                         <div class="text-end">
-                                            <div class="final-price">@Model.TotalPrice</div>
+                                            <div class="final-price">$@Model.TotalPrice.ToString("N2")</div>
                                         </div>
                                     </div>
                                 </div>

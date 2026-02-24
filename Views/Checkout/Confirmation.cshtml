@@ -108,8 +108,8 @@
 
                 <div class="mb-2">
                     <small class="text-muted">Room details</small>
-                    <div>@Model.NumberOfRooms × @Model.RoomType</div>
-                    <div class="sub-text">@Model.NumberOfNights night · @Model.NumberOfAdults adults</div>
+                    <div>@Model.NumberOfRooms ï¿½ @Model.RoomType</div>
+                    <div class="sub-text">@Model.NumberOfNights night ï¿½ @Model.NumberOfAdults adults</div>
                 </div>
             </div>
 
@@ -118,11 +118,11 @@
 
                 <div class="d-flex justify-content-between mb-2">
                     <span>Total amount paid</span>
-                    <span class="fw-bold">? @(Model.TotalPrice + 124.95m)</span>
+                    <span class="fw-bold">$@((Model.TotalPrice + 124.95m).ToString("N2"))</span>
                 </div>
 
                 <div class="sub-text mb-3">
-                    Includes ? 124.95 in taxes and charges
+                    Includes $124.95 in taxes and charges
                 </div>
 
                 <div class="highlight-box p-3">

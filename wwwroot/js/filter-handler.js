@@ -29,10 +29,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (span) span.textContent = 'Selected Location';
             }
             
-            // Close dropdown
+            // Close dropdown (use class removal so jQuery toggle works on next open)
             const dropdown = document.querySelector('.custom-select-wrap.three');
             if (dropdown) {
-                dropdown.style.display = 'none';
+                dropdown.classList.remove('active');
+                dropdown.style.display = '';
             }
         });
     });
@@ -66,10 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (span) span.textContent = 'Selected Location';
             }
             
-            // Close dropdown
+            // Close dropdown (use class removal so jQuery toggle works on next open)
             const dropdown = document.querySelector('#hotel-page .custom-select-wrap.three');
             if (dropdown) {
-                dropdown.style.display = 'none';
+                dropdown.classList.remove('active');
+                dropdown.style.display = '';
             }
 
             // Automatically submit form to refresh results

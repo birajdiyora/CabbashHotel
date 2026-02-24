@@ -805,13 +805,19 @@
                                                         aria-expanded="@(isFirst ? "true" : "false")"
                                                         aria-controls="@collapseId">
                                                         <div class="batch">
-                                                            <span>@room.Code</span>
+                                                            @if (!string.IsNullOrEmpty(room.Code))
+                                                            {
+                                                                <span>@room.Code</span>
+                                                            }
                                                         </div>
                                                         <div class="title-area">
                                                             <span class="check"></span>
                                                             <h6>@room.Name</h6>
                                                         </div>
-                                                        <span>&#8358;@room.Price.ToString("N0")</span>
+                                                        <span>
+                                                            <del style="opacity:0.6;">$@room.Price.ToString("N2")</del>
+                                                            <span class="business-price">$@room.BusinessPrice.ToString("N2")</span>
+                                                        </span>
                                                     </div>
                                                 </div>
                                                 <div id="@collapseId" class="accordion-collapse collapse @(isFirst ? "show" : "")"
@@ -1186,7 +1192,35 @@
                             </div>
                             <div class="price-area">
                                 <h6>Starting From</h6>
-                                <span><del>$49</del> $39<sub>/per person</sub></span>
+                                <span id="sidebar-price">
+                                    <del id="sidebar-original"></del> <span id="sidebar-discount"></span><sub>/per person</sub>
+                                </span>
+                            <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                // Listen for room selection
+                                document.querySelectorAll('.accordion-button').forEach(function(btn) {
+                                    btn.addEventListener('click', function() {
+                                        // Find price elements in this room
+                                        var priceDel = btn.querySelector('del');
+                                        var priceDiscount = btn.querySelector('.business-price');
+                                        if (priceDel && priceDiscount) {
+                                            document.getElementById('sidebar-original').textContent = priceDel.textContent;
+                                            document.getElementById('sidebar-discount').textContent = priceDiscount.textContent;
+                                        }
+                                    });
+                                });
+                                // Optionally, set default price from first room
+                                var firstBtn = document.querySelector('.accordion-button');
+                                if (firstBtn) {
+                                    var priceDel = firstBtn.querySelector('del');
+                                    var priceDiscount = firstBtn.querySelector('.business-price');
+                                    if (priceDel && priceDiscount) {
+                                        document.getElementById('sidebar-original').textContent = priceDel.textContent;
+                                        document.getElementById('sidebar-discount').textContent = priceDiscount.textContent;
+                                    }
+                                }
+                            });
+                            </script>
                             </div>
                             <ul>
                                 <li>
